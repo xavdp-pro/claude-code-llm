@@ -579,7 +579,7 @@ function dashboardHtml() {
   #models { font-size:13px; color:#aeb6c6; }
 </style></head><body>
 <header>
-  <span id="dot"></span><h1>claude-code-ollama — bridge</h1>
+  <span id="dot"></span><h1>claude-code-llm — bridge</h1>
   <div class="badge">
     <span id="credits">…</span>
     <span id="sub">crédit OpenRouter restant</span>

@@ -1,12 +1,12 @@
 {
-  "name": "claude-code-ollama",
+  "name": "claude-code-llm",
   "version": "1.0.0",
   "private": false,
   "description": "Run Claude Code CLI via LiteLLM against Ollama Cloud and OpenRouter",
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "https://github.com/xavdp-pro/claude-code-ollama.git"
+    "url": "https://github.com/xavdp-pro/claude-code-llm.git"
   },
   "scripts": {
     "litellm": "./start-litellm.sh",

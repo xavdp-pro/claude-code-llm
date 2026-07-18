@@ -1,4 +1,4 @@
-# claude-code-ollama
+# claude-code-llm
 
 Run **Claude Code CLI** against **Ollama Cloud** and **OpenRouter** via a local **LiteLLM** Anthropic-compatible gateway.
 
@@ -22,8 +22,8 @@ Optional:     claude-bridge :4100  (HTTP inject + SSE for automation / web UIs)
 ## Quick start
 
 ```bash
-git clone https://github.com/xavdp-pro/claude-code-ollama.git
-cd claude-code-ollama
+git clone https://github.com/xavdp-pro/claude-code-llm.git
+cd claude-code-llm
 ./install.sh
 # edit .env → OLLAMA_API_KEY / OPENROUTER_API_KEY
 ./start-litellm.sh

@@ -37,7 +37,7 @@ fi
 # shellcheck disable=SC1091
 source "$ROOT/.env"
 if [[ -z "${CLAUDE_WS_BASE:-}" ]]; then
-  CLAUDE_WS_BASE="${XDG_DATA_HOME:-$HOME/.local/share}/claude-code-ollama/workspaces"
+  CLAUDE_WS_BASE="${XDG_DATA_HOME:-$HOME/.local/share}/claude-code-llm/workspaces"
   # Persist default into .env if empty
   if grep -q '^CLAUDE_WS_BASE=$' "$ROOT/.env" 2>/dev/null || grep -q '^CLAUDE_WS_BASE=$' "$ROOT/.env"; then
     sed -i "s|^CLAUDE_WS_BASE=.*|CLAUDE_WS_BASE=$CLAUDE_WS_BASE|" "$ROOT/.env"

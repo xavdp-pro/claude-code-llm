@@ -5,7 +5,7 @@ ROOT="$(cd "$(dirname "$0")" && pwd)"
 source "$ROOT/.env"
 
 if [[ -z "${CLAUDE_WS_BASE:-}" ]]; then
-  CLAUDE_WS_BASE="${XDG_DATA_HOME:-$HOME/.local/share}/claude-code-ollama/workspaces"
+  CLAUDE_WS_BASE="${XDG_DATA_HOME:-$HOME/.local/share}/claude-code-llm/workspaces"
 fi
 mkdir -p "$CLAUDE_WS_BASE"
 
