@@ -1,0 +1,122 @@
+# LiteLLM — Ollama Cloud (gratuit) + OpenRouter (gratuit :free)
+
+model_list:
+  # ── OLLAMA CLOUD (gratuit) ─────────────────────────────
+  - model_name: gpt-oss-20b
+    litellm_params:
+      model: ollama_chat/gpt-oss:20b
+      api_base: https://ollama.com
+      api_key: os.environ/OLLAMA_API_KEY
+
+  - model_name: nemotron-30b
+    litellm_params:
+      model: ollama_chat/nemotron-3-nano:30b
+      api_base: https://ollama.com
+      api_key: os.environ/OLLAMA_API_KEY
+
+  - model_name: minimax-m2.5
+    litellm_params:
+      model: ollama_chat/minimax-m2.5
+      api_base: https://ollama.com
+      api_key: os.environ/OLLAMA_API_KEY
+
+  - model_name: minimax-m3
+    litellm_params:
+      model: ollama_chat/minimax-m3
+      api_base: https://ollama.com
+      api_key: os.environ/OLLAMA_API_KEY
+
+  # ── Alias Claude Code (tous → gratuits) ──
+  - model_name: claude-ollama
+    litellm_params:
+      model: ollama_chat/gpt-oss:20b
+      api_base: https://ollama.com
+      api_key: os.environ/OLLAMA_API_KEY
+
+  - model_name: claude-ollama-fast
+    litellm_params:
+      model: ollama_chat/nemotron-3-nano:30b
+      api_base: https://ollama.com
+      api_key: os.environ/OLLAMA_API_KEY
+
+  - model_name: claude-3-5-sonnet-20241022
+    litellm_params:
+      model: ollama_chat/minimax-m3
+      api_base: https://ollama.com
+      api_key: os.environ/OLLAMA_API_KEY
+
+  - model_name: claude-3-5-haiku-20241022
+    litellm_params:
+      model: ollama_chat/gpt-oss:20b
+      api_base: https://ollama.com
+      api_key: os.environ/OLLAMA_API_KEY
+
+  # Alias claude-* pour discovery gateway (apparaissent dans /model)
+  - model_name: claude-minimax-m3
+    litellm_params:
+      model: ollama_chat/minimax-m3
+      api_base: https://ollama.com
+      api_key: os.environ/OLLAMA_API_KEY
+
+  - model_name: claude-or-qwen-coder
+    litellm_params:
+      model: openrouter/qwen/qwen3-coder:free
+      api_key: os.environ/OPENROUTER_API_KEY
+
+  # ── OPENROUTER (gratuit :free) ─────────────────────────
+  - model_name: or-qwen-coder
+    litellm_params:
+      model: openrouter/qwen/qwen3-coder:free
+      api_key: os.environ/OPENROUTER_API_KEY
+
+  - model_name: or-qwen
+    litellm_params:
+      model: openrouter/qwen/qwen3-next-80b-a3b-instruct:free
+      api_key: os.environ/OPENROUTER_API_KEY
+
+  - model_name: or-deepseek
+    litellm_params:
+      model: openrouter/tencent/hy3:free
+      api_key: os.environ/OPENROUTER_API_KEY
+
+  - model_name: or-gemini
+    litellm_params:
+      model: openrouter/google/gemma-4-31b-it:free
+      api_key: os.environ/OPENROUTER_API_KEY
+
+  - model_name: or-llama
+    litellm_params:
+      model: openrouter/meta-llama/llama-3.3-70b-instruct:free
+      api_key: os.environ/OPENROUTER_API_KEY
+
+  # ── OPENROUTER (payant — Kimi / GLM coding) ────────────
+  - model_name: or-kimi-k3
+    litellm_params:
+      model: openrouter/moonshotai/kimi-k3
+      api_key: os.environ/OPENROUTER_API_KEY
+
+  - model_name: or-kimi-k2.7-code
+    litellm_params:
+      model: openrouter/moonshotai/kimi-k2.7-code
+      api_key: os.environ/OPENROUTER_API_KEY
+
+  - model_name: or-kimi-k2.6
+    litellm_params:
+      model: openrouter/moonshotai/kimi-k2.6
+      api_key: os.environ/OPENROUTER_API_KEY
+
+  - model_name: or-glm-5.2
+    litellm_params:
+      model: openrouter/z-ai/glm-5.2
+      api_key: os.environ/OPENROUTER_API_KEY
+
+  - model_name: or-glm-4.7-flash
+    litellm_params:
+      model: openrouter/z-ai/glm-4.7-flash
+      api_key: os.environ/OPENROUTER_API_KEY
+
+general_settings:
+  master_key: sk-claude-bridge-local
+
+litellm_settings:
+  drop_params: true

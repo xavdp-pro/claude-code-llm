@@ -1,0 +1,22 @@
+{
+  "name": "claude-code-ollama",
+  "version": "1.0.0",
+  "private": false,
+  "description": "Run Claude Code CLI via LiteLLM against Ollama Cloud and OpenRouter",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/xavdp-pro/claude-code-ollama.git"
+  },
+  "scripts": {
+    "litellm": "./start-litellm.sh",
+    "bridge": "./start-bridge.sh",
+    "start": "./start-all.sh",
+    "models": "./scripts/list-models.sh",
+    "install:stack": "./install.sh",
+    "test:litellm": "curl -sS -X POST http://127.0.0.1:4000/v1/messages -H 'x-api-key: sk-claude-bridge-local' -H 'anthropic-version: 2023-06-01' -H 'content-type: application/json' -d '{\"model\":\"claude-ollama\",\"max_tokens\":30,\"messages\":[{\"role\":\"user\",\"content\":\"say ok\"}]}'"
+  },
+  "dependencies": {
+    "@anthropic-ai/claude-code": "^2.1.210"
+  }
+}
