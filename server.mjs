@@ -91,6 +91,25 @@ const CLAUDE_ENV = {
 fs.mkdirSync(CFG_DIR, { recursive: true });
 fs.mkdirSync(WS_BASE, { recursive: true });
 
+/** Claude Code writes $HOME/.claude/session-env — must exist and be writable (turbinobash). */
+function ensureClaudeRuntimeDirs() {
+  const home = process.env.HOME || os.homedir();
+  for (const dir of [
+    path.join(home, '.claude'),
+    path.join(home, '.claude', 'session-env'),
+    path.join(home, '.claude', 'sessions'),
+    WS_BASE,
+    CFG_DIR,
+  ]) {
+    try {
+      fs.mkdirSync(dir, { recursive: true });
+    } catch (err) {
+      console.error(`[claude-bridge] cannot mkdir ${dir}:`, err.message);
+    }
+  }
+}
+ensureClaudeRuntimeDirs();
+
 function token() {
   try {
     return fs.readFileSync(TOKEN_FILE, 'utf8').trim();
@@ -276,6 +295,7 @@ function toolResultText(content) {
 }
 
 function runClaude(name, message, modelId) {
+  ensureClaudeRuntimeDirs();
   const reg = loadSessions();
   const entry = reg.conversations[name];
   const cwd = path.join(WS_BASE, safeDir(name));
@@ -289,13 +309,22 @@ function runClaude(name, message, modelId) {
     '--include-partial-messages',
     '--dangerously-skip-permissions',
   ];
+  // Groq free tier rate-limits hard under full Claude Code tool loops.
+  // --bare keeps a single completion path so chat actually replies.
+  if (String(model || '').startsWith('groq-') || process.env.CLAUDE_BARE === '1') {
+    args.push('--bare');
+  }
   if (model) args.push('--model', model);
+  const useBare = String(model || '').startsWith('groq-')
+    || String(model || '').startsWith('or-')
+    || process.env.CLAUDE_BARE === '1';
   let sessionId;
-  if (entry && entry.session_id && entry.started) {
+  // Bare/Groq runs are short completions — resume often breaks ("No conversation found").
+  if (!useBare && entry && entry.session_id && entry.started) {
     sessionId = entry.session_id;
     args.push('--resume', sessionId);
   } else {
-    sessionId = (entry && entry.session_id) || crypto.randomUUID();
+    sessionId = crypto.randomUUID();
     args.push('--session-id', sessionId);
   }
 
@@ -670,20 +699,37 @@ const server = http.createServer(async (req, res) => {
   }
 
   if (p === '/api/status') {
+    const orOk = Boolean(OR_KEY && !OR_KEY.includes('your-openrouter'));
     return send(res, 200, {
       ok: true, ready: true, service: 'claude-bridge',
       registry: SESSIONS_FILE, ws_base: WS_BASE, port: PORT,
       model: CLAUDE_ENV.ANTHROPIC_MODEL,
       models: AVAILABLE_MODELS,
       default_model: DEFAULT_MODEL || AVAILABLE_MODELS[0]?.id || null,
+      openrouter_configured: orOk,
+      openrouter_credits: lastCredits,
     });
   }
 
   if (p === '/api/models') {
+    const orOk = Boolean(OR_KEY && !OR_KEY.includes('your-openrouter'));
+    const models = AVAILABLE_MODELS
+      .filter((m) => !String(m.id || '').startsWith('groq-'))
+      .map((m) => {
+      const needsOr = String(m.id || '').startsWith('or-');
+      const available = !needsOr || (orOk && lastCredits?.ok !== false);
+      let unavailableReason = null;
+      if (needsOr && !orOk) unavailableReason = 'Clé OpenRouter manquante';
+      else if (needsOr && lastCredits && !lastCredits.ok) {
+        unavailableReason = lastCredits.error || 'Crédits OpenRouter insuffisants';
+      }
+      return { ...m, requiresOpenRouter: needsOr, available, unavailableReason };
+    });
     return send(res, 200, {
       ok: true,
-      models: AVAILABLE_MODELS,
+      models,
       default_model: DEFAULT_MODEL || AVAILABLE_MODELS[0]?.id || null,
+      openrouter_configured: orOk,
     });
   }
 

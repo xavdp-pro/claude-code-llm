@@ -4,6 +4,9 @@ ROOT="$(cd "$(dirname "$0")" && pwd)"
 # shellcheck disable=SC1091
 source "$ROOT/.env"
 
+# Turbinobash: HOME=/apps/<app> — Claude Code must write $HOME/.claude/session-env.
+bash "$ROOT/ensure-runtime-dirs.sh"
+
 if [[ -z "${CLAUDE_WS_BASE:-}" ]]; then
   CLAUDE_WS_BASE="${XDG_DATA_HOME:-$HOME/.local/share}/claude-code-llm/workspaces"
 fi

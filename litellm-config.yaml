@@ -1,4 +1,4 @@
-# LiteLLM — Ollama Cloud (gratuit) + OpenRouter (gratuit :free)
+# LiteLLM — Ollama Cloud + OpenRouter (Groq réservé aux accusés réception dans helm-v2 API)
 
 model_list:
   # ── OLLAMA CLOUD (gratuit) ─────────────────────────────
@@ -51,7 +51,6 @@ model_list:
       api_base: https://ollama.com
       api_key: os.environ/OLLAMA_API_KEY
 
-  # Alias claude-* pour discovery gateway (apparaissent dans /model)
   - model_name: claude-minimax-m3
     litellm_params:
       model: ollama_chat/minimax-m3
